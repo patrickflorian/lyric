@@ -3,11 +3,17 @@ from flask_restplus import Namespace, fields
 
 class UserDto:
     api = Namespace('user', description='user related operations')
-    user = api.model('user', {
+    user = api.model('users', {
         'email': fields.String(required=True, description='user email address'),
         'username': fields.String(required=True, description='user username'),
         'password': fields.String(required=True, description='user password'),
         'public_id': fields.String(description='user Identifier')
+    })
+    user_add = api.model('user',{
+        'email': fields.String(required=True, description='user email address'),
+        'username': fields.String(required=True, description='user username'),
+        'password': fields.String(required=True, description='user password'),
+        'admin': fields.Boolean(required=False,description="is user admin?", default='false')
     })
 
 class AuthDto:
@@ -19,12 +25,19 @@ class AuthDto:
 
 class LyricDto:
     api = Namespace('lyric', description="lyrics related operations")
-    lyric = api.model('lyric', {
+    lyric = api.model('lyrics', {
         'title': fields.String(required=True, description='The lyric title'),
         'content': fields.String(required=True, description='The lyric text content'),
         'audio': fields.String(required=False, description='the lyric audio file'),
         'image': fields.String(required=False, description='the lyric related image'),
-        'id':fields.String(description="lyric identifier"),
+        'genre_id': fields.String(description="lyric's genre"),
+        'id':fields.String(description="genre identifier")
+    })
+    lyric_add= api.model('lyric',{
+        'title': fields.String(required=True, description='The lyric title'),
+        'content': fields.String(required=True, description='The lyric text content'),
+        'audio': fields.String(required=False, description='the lyric audio file url'),
+        'image': fields.String(required=False, description='the lyric related image url'),
         'genre_id': fields.String(description="lyric's genre")
     })
 

@@ -1,5 +1,5 @@
 from flask_restplus import Api
-from flask import Blueprint
+from flask import Blueprint,url_for
 
 from .main.controller.user_controller import api as user_ns
 from .main.controller.auth_controller import api as auth_ns
@@ -9,10 +9,31 @@ from .main.controller.genre_controller import api as genre_ns
 
 blueprint = Blueprint('api', __name__)
 
-api = Api(blueprint,
-          title='FLASK RESTPLUS LYRIC\'S API  WITH JWT',
+# Authorizationo dictionnary
+authorizations={
+    'apikey':{
+        'in':'header',
+        'type':'apiKey',
+        'name':'Authorization',
+    }
+}
+class MyApi(Api):
+    @property
+    def specs_url(self):
+        """ Monkey patch for HTTPS"""
+        scheme = 'https' if 'https' in self.base_url else 'http'
+        return url_for(self.endpoint('specs'),_external=True, _scheme=scheme)
+
+description="this is <b> Lyrics</b> API .All request in regards to the application can be found here, in general most of the methods require you being as an active user to be able to access"
+
+api = MyApi(blueprint,
+          doc='/doc/',
+          title=' LYRIC\'S API',
           version='1.0',
-          description='lyrics restplus web service'
+          authorizations=authorizations,
+          description=description,
+          default='auth',
+          default_label='lyrics related operations'
           )
 
 api.add_namespace(user_ns, path='/user')

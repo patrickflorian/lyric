@@ -6,4 +6,4 @@ file_upload.add_argument('file',
                         type=werkzeug.datastructures.FileStorage,
                         location="files",
                         required=True,
-                        help="Audio or image file")
+                        help="Audio or image file",)

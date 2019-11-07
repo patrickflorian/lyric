@@ -21,7 +21,7 @@ class Lyric(db.Model):
     id = db.Column(db.String(100), primary_key=True)
     public_id = db.Column(db.String(100), unique=True)
     title = db.Column(db.String(255), nullable=False)
-    content = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.String(2000), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     audio = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False)

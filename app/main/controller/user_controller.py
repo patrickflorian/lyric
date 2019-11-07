@@ -6,6 +6,7 @@ from ..service.user_service import save_new_user, get_all_users, get_a_user
 
 api = UserDto.api
 _user = UserDto.user
+_user_add = UserDto.user_add
 
 
 @api.route('/')
@@ -18,13 +19,13 @@ class UserList(Resource):
 
     @api.response(201, 'User successfully created.')
     @api.doc('create a new user')
-    @api.expect(_user, validate=True)
+    @api.expect(_user_add, validate=True)
     def post(self):
         """Creates a new User """
         data = request.json
         return save_new_user(data=data)
 
-
+@api.response(401, 'Unauthorized login first')
 @api.route('/<public_id>')
 @api.param('public_id', 'The User identifier')
 @api.response(404, 'User not found.')
